@@ -81,7 +81,7 @@ class CodeGenerator(Role):
         self.security_requirements_template = self.prompt_data.get("security_requirements", "")
         self.response_json_schema = json.loads(self.prompt_data["response_json_schema"])
 
-        self.code_verification_on: bool = False
+        self.code_verification_on: bool = True
         self.allowed_modules: List[str] = []
 
         self.round_compressor: RoundCompressor = round_compressor

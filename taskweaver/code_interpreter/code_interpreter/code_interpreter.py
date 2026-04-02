@@ -113,12 +113,22 @@ class CodeInterpreter(Role, Interpreter):
         code_verification_on = self.config.code_verification_on
         kernel_mode = executor.exec_mgr.get_kernel_mode()
         if not code_verification_on:
-            logger.warning(
-                f"Code verification is disabled for {kernel_mode} mode. "
-                "Running without code verification poses security risks as it allows "
-                "arbitrary code execution. It is strongly recommended to enable "
-                "code_verification_on in the configuration.",
-            )
+            if kernel_mode != "local":
+                logger.error(
+                    f"Code verification is disabled for {kernel_mode} mode. "
+                    "Running in non-local mode without code verification is a critical "
+                    "security risk as it allows arbitrary code execution with potential "
+                    "access to cloud metadata, mounted secrets, and network resources. "
+                    "It is strongly recommended to enable code_verification_on in the "
+                    "configuration.",
+                )
+            else:
+                logger.warning(
+                    f"Code verification is disabled for {kernel_mode} mode. "
+                    "Running without code verification poses security risks as it allows "
+                    "arbitrary code execution. It is strongly recommended to enable "
+                    "code_verification_on in the configuration.",
+                )
         self.code_verification_on = code_verification_on
 
         self.generator.configure_verification(

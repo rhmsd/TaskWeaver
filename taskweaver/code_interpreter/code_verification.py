@@ -252,7 +252,7 @@ def separate_magics_and_code(input_code: str) -> Tuple[List[str], str, List[str]
 
 def code_snippet_verification(
     code_snippet: str,
-    code_verification_on: bool = False,
+    code_verification_on: bool = True,
     allowed_modules: Optional[List[str]] = None,
     blocked_modules: Optional[List[str]] = None,
     allowed_functions: Optional[List[str]] = None,

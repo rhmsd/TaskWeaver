@@ -25,16 +25,17 @@ To prevent this, we can use code verification to check the generated code before
 If the code does not pass the verification, the errors will be reported to the CodeGenerator to re-generate the code.
 
 ## How to use code verification?
-To use code verification, you can add the configuration `"code_interpreter.code_verification_on": true`
-in the project configuration file `taskweaver_config.json`.
-Then, the generated code will be verified before running it.
+Code verification is enabled by default (`code_interpreter.code_verification_on` is `true`).
+If you need to disable it, you can set `"code_interpreter.code_verification_on": false`
+in the project configuration file `taskweaver_config.json`, but this is **not recommended** as it
+allows arbitrary code execution without safety checks.
 
-After enabling code verification, you can also specify the code verification rules in the project configuration file.
+You can also customize the code verification rules in the project configuration file.
 
 | Parameter	                          | Description	                                              | Default                                                                                                                                    |
 |-------------------------------------|-----------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
 | code_interpreter.allowed_modules	   | The list of allowed modules to import in code generation. | 	["pandas", "matplotlib", "numpy", "sklearn", "scipy", "seaborn", "datetime", "typing"], if the list is empty, no modules would be allowed |
-| code_interpreter.blocked_functions	 | The list of functions to block from code generation.      | 	["_\_import__","eval", "exec", "execfile", "compile", "open", "input", "raw_input", "reload"]                                             |
+| code_interpreter.blocked_functions	 | The list of functions to block from code generation.      | 	["eval", "exec", "execfile", "compile", "open", "input", "raw_input", "reload", "__import__", "getattr", "setattr", "delattr", "vars", "globals", "locals", "__getattribute__", "__setattr__", "__delattr__"] |
 
 We currently support checking the allowed modules and blocked functions.
 If a module is in the `allowed_modules` list, it can be imported in the generated code.
